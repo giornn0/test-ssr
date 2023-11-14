@@ -1,4 +1,9 @@
-import { AfterRenderPhase, Component, afterNextRender } from '@angular/core';
+import {
+  AfterRenderPhase,
+  ChangeDetectorRef,
+  Component,
+  afterNextRender,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -12,14 +17,15 @@ import { RouterOutlet } from '@angular/router';
 export class AppComponent {
   title = 'test-ssr';
   test = 'Initial';
-  constructor() {
+  constructor(private cdr: ChangeDetectorRef) {
     afterNextRender(
       () => {
         setTimeout(() => {
           this.test = 'sadfasdfadf';
+          this.cdr.detectChanges();
         }, 4000);
       },
-      { phase: AfterRenderPhase.Write },
+      { phase: AfterRenderPhase.Read },
     );
   }
 }
