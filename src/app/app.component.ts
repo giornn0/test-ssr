@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -11,5 +11,13 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'test-ssr';
-  test = '';
+  test = 'Initial';
+  constructor(){
+ afterNextRender(() => {
+      setTimeout(()=>{
+      this.test = "sadfasdfadf";
+      },4000)
+    }, {phase: AfterRenderPhase.Write});
+  }
+  }
 }
